@@ -1,7 +1,10 @@
-"""
-Bug Planning
-"""
+#Tangente bug
 
+#Victor Daniel Lander
+#Pedro Augusto
+#Vinicius Machado
+
+#Bibliotecas
 from pickle import FALSE
 import numpy as np
 import matplotlib.pyplot as plt
@@ -37,28 +40,29 @@ class BugPlanner:
 
     def mov_to_next_obs(self, visited_x, visited_y):
         for add_x, add_y in zip([1, 0, -1, 0], [0, 1, 0, -1]):
+
             c_x, c_y = self.r_x[-1] + add_x, self.r_y[-1] + add_y
             for _x, _y in zip(self.out_x, self.out_y):
+                if not _x + 1 or _y + 1 in zip(visited_x, visited_y):
+                    self.r_x=[_x]
+                    self.r_y=[_y]
+                    break
                 use_pt = True
                 if c_x == _x and c_y == _y:
                     for v_x, v_y in zip(visited_x, visited_y):
                         if c_x == v_x and c_y == v_y:
                             use_pt = False
+                            self.r_x=[_x]
+                            self.r_y=[_y]
                             break
                     if use_pt:
                         return c_x, c_y, False
                 if not use_pt:
                     break
         return self.r_x[-1], self.r_y[-1], True
-
-    def bug1(self):
+    def tang_bug(self):
         """
-        Move towards goal in a greedy manner.
-        When you hit an obstacle, you go around it and
-        back to where you hit the obstacle initially.
-        Then, you go to the point on the obstacle that is
-        closest to your goal and you start moving towards
-        goal in a greedy manner from that new point.
+       algoritmo da tangente bug
         """
         mov_dir = 'normal'
         cand_x, cand_y = -np.inf, -np.inf
@@ -72,7 +76,7 @@ class BugPlanner:
             plt.plot(self.goal_x, self.goal_y, "xb")
             plt.plot(self.out_x, self.out_y, ".")
             plt.grid(True)
-            plt.title('BUG 1')
+            plt.title('TANGENTE BUG')
 
         for xob, yob in zip(self.out_x, self.out_y):
             if self.r_x[-1] == xob and self.r_y[-1] == yob:
@@ -127,8 +131,11 @@ class BugPlanner:
                 plt.pause(0.001)
         if show_animation:
             plt.show()
+            
+            
+          
 
-def main(bug_1):
+def main(tang_bug):
     # set obstacle positions
     o_x, o_y = [], []
 
@@ -172,9 +179,9 @@ def main(bug_1):
             o_x.append(i)
             o_y.append(j)
 
-    if bug_1:
+    if tang_bug:
         my_Bug = BugPlanner(s_x, s_y, g_x, g_y, o_x, o_y)
-        my_Bug.bug1()
+        my_Bug.tang_bug()
 
 if __name__ == '__main__':
-    main(bug_1=True)
+    main(tang_bug=True)
