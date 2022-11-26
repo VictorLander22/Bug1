@@ -43,17 +43,17 @@ class BugPlanner:
 
             c_x, c_y = self.r_x[-1] + add_x, self.r_y[-1] + add_y
             for _x, _y in zip(self.out_x, self.out_y):
-                if not _x + 1 or _y + 1 in zip(visited_x, visited_y):
+                #PARTE Q EU ALTEREI
+                if not _x + 1  or _y + 1 in zip(self.out_x, self.out_y):
                     self.r_x=[_x]
                     self.r_y=[_y]
-                    break
+                    self.mov_normal()
+                #FIM DO Q EU ALTEREI    
                 use_pt = True
                 if c_x == _x and c_y == _y:
                     for v_x, v_y in zip(visited_x, visited_y):
                         if c_x == v_x and c_y == v_y:
                             use_pt = False
-                            self.r_x=[_x]
-                            self.r_y=[_y]
                             break
                     if use_pt:
                         return c_x, c_y, False
